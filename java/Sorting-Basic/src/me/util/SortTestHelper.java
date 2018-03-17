@@ -1,6 +1,5 @@
-package me.select.performance;
+package me.util;
 
-import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
 /**
@@ -72,15 +71,40 @@ public class SortTestHelper {
      */
     public static void testSort(Class<?> clazz, String methodName, Class<?>[] parameterTypes, Object[] params) {
         try {
-            Method method = clazz.getMethod(methodName,parameterTypes);
-            long startTime = System.currentTimeMillis();
+            Method method = clazz.getMethod(methodName, parameterTypes);
             method.setAccessible(true);
-            method.invoke(null, params);
+            System.out.println(method);
+            long startTime = System.currentTimeMillis();
+            method.invoke(clazz.newInstance(), params);
             long endTime = System.currentTimeMillis();
             long time = endTime - startTime;
             System.out.println("The method " + methodName + " execution wtth " + time + "ms");
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    /**
+     * 生成一个近乎有序的数组
+     * 首先生成一个含有[0...n-1]的完全有序数组, 之后随机交换swapTimes对数据
+     * swapTimes定义了数组的无序程度:
+     * swapTimes == 0 时, 数组完全有序
+     * swapTimes 越大, 数组越趋向于无序
+     */
+    public static Integer[] generateNearlyOrderedArray(int n, int swapTimes) {
+
+        Integer[] arr = new Integer[n];
+        for (int i = 0; i < n; i++)
+            arr[i] = i;
+
+        for (int i = 0; i < swapTimes; i++) {
+            int a = (int) (Math.random() * n);
+            int b = (int) (Math.random() * n);
+            int t = arr[a];
+            arr[a] = arr[b];
+            arr[b] = t;
+        }
+
+        return arr;
     }
 }

@@ -1,10 +1,12 @@
 package me.select.performance;
 
+import me.util.SortTestHelper;
+
 public class SelectionSort {
 
     // 我们的算法类不允许产生任何实例
-    private SelectionSort() {
-    }
+//    private SelectionSort() {
+//    }
 
     public static <T extends Comparable<T>> void sort(T[] arr) {
 
