@@ -45,7 +45,6 @@ public class SortTestHelper {
             System.out.print(anArr);
             System.out.print(' ');
         }
-        System.out.println();
 
     }
 
@@ -78,7 +77,7 @@ public class SortTestHelper {
             method.invoke(clazz.newInstance(), params);
             long endTime = System.currentTimeMillis();
             long time = endTime - startTime;
-            System.out.println("The method " + methodName + " execution wtth " + time + "ms");
+            System.out.println("The method " + methodName + " execution with " + time + "ms");
         } catch (Exception e) {
             e.printStackTrace();
         }
