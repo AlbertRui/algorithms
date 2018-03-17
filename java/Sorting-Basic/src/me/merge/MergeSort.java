@@ -1,72 +1,69 @@
 package me.merge;
 
-import me.util.SortTestHelper;
-
 import java.util.Arrays;
 
 /**
+ * 归并排序
+ *
  * @author AlbertRui
  * @date 2018-03-17 22:19
  */
+@SuppressWarnings({"JavaDoc", "unused"})
 public class MergeSort {
-
-    // 我们的算法类不允许产生任何实例
-    private MergeSort() {
+    public <T extends Comparable<T>> void mergeSort(T[] arr) {
+        mergeSort(arr, 0, arr.length - 1);
     }
 
-    // 将arr[l...mid]和arr[mid+1...r]两部分进行归并
-    private static void merge(Comparable[] arr, int l, int mid, int r) {
+    /**
+     * 递归使用归并排序,对arr[l...r]的范围进行排序
+     *
+     * @param arr
+     * @param left
+     * @param right
+     * @param <T>
+     */
+    private <T extends Comparable<T>> void mergeSort(T[] arr, int left, int right) {
+        if (left >= right) {
+            return;
+        }
 
-        Comparable[] aux = Arrays.copyOfRange(arr, l, r + 1);
+        int middle = (left + right) / 2;
+        mergeSort(arr, left, middle);
+        mergeSort(arr, middle + 1, right);
+        merge(arr, left, middle, right);
+    }
 
-        // 初始化，i指向左半部分的起始索引位置l；j指向右半部分起始索引位置mid+1
-        int i = l, j = mid + 1;
-        for (int k = l; k <= r; k++) {
-
-            if (i > mid) {  // 如果左半部分元素已经全部处理完毕
-                arr[k] = aux[j - l];
+    /**
+     * 数组合并
+     *
+     * @param arr
+     * @param left
+     * @param middle
+     * @param right
+     * @param <T>
+     */
+    private <T extends Comparable<T>> void merge(T[] arr, int left, int middle, int right) {
+        T[] aux = Arrays.copyOfRange(arr, left, right + 1);
+        int i = left;
+        int j = middle + 1;
+        for (int k = left; k <= right; k++) {
+            if (i > middle) {
+                //如果左边部分已经全部处理完毕（注意，有left个偏移量）
+                arr[k] = aux[j - left];
                 j++;
-            } else if (j > r) {   // 如果右半部分元素已经全部处理完毕
-                arr[k] = aux[i - l];
+            } else if (j > right) {
+                //如果右边部分已经全部处理完毕
+                arr[k] = aux[i - left];
                 i++;
-            } else if (aux[i - l].compareTo(aux[j - l]) < 0) {  // 左半部分所指元素 < 右半部分所指元素
-                arr[k] = aux[i - l];
+            } else if (aux[i - left].compareTo(aux[j - left]) < 0) {
+                //左边部分小于右边部分
+                arr[k] = aux[i - left];
                 i++;
-            } else {  // 左半部分所指元素 >= 右半部分所指元素
-                arr[k] = aux[j - l];
+            } else {
+                //右边部分小于左边部分
+                arr[k] = aux[j - left];
                 j++;
             }
         }
-    }
-
-    // 递归使用归并排序,对arr[l...r]的范围进行排序
-    private static void sort(Comparable[] arr, int l, int r) {
-
-        if (l >= r)
-            return;
-
-        int mid = (l + r) / 2;
-        sort(arr, l, mid);
-        sort(arr, mid + 1, r);
-        merge(arr, l, mid, r);
-    }
-
-    public static void sort(Comparable[] arr) {
-
-        int n = arr.length;
-        sort(arr, 0, n - 1);
-    }
-
-    // 测试MergeSort
-    public static void main(String[] args) {
-
-        // Merge Sort是我们学习的第一个O(nlogn)复杂度的算法
-        // 可以在1秒之内轻松处理100万数量级的数据
-        // 注意：不要轻易尝试使用SelectionSort, InsertionSort或者BubbleSort处理100万级的数据
-        // 否则，你就见识了O(n^2)的算法和O(nlogn)算法的本质差异：）
-        int N = 1000000;
-        Integer[] arr = SortTestHelper.generateRandomArray(N, 0, 100000);
-//        SortTestHelper.testSort("bobo.algo.MergeSort", arr);
-//
     }
 }
