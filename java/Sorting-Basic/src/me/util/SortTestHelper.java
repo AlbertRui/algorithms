@@ -77,7 +77,7 @@ public class SortTestHelper {
             method.invoke(clazz.newInstance(), params);
             long endTime = System.currentTimeMillis();
             long time = endTime - startTime;
-            System.out.println("The method " + methodName + " execution with " + time + "ms");
+            System.out.println("The method " + methodName + " execution use " + time + "ms");
         } catch (Exception e) {
             e.printStackTrace();
         }

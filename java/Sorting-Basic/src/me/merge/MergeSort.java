@@ -11,6 +11,7 @@ import java.util.Arrays;
 @SuppressWarnings({"JavaDoc", "unused"})
 public class MergeSort {
     public <T extends Comparable<T>> void mergeSort(T[] arr) {
+        System.out.println("==============merge sort excution with descending order===============");
         mergeSort(arr, 0, arr.length - 1);
     }
 
