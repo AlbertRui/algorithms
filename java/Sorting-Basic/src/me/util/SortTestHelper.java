@@ -49,6 +49,21 @@ public class SortTestHelper {
     }
 
     /**
+     * 换行打印arr数组的所有内容
+     *
+     * @param arr
+     */
+    public static void printArrayLn(Object arr[], int n) {
+        for (int i = 0; i < arr.length; i++) {
+            System.out.print(arr[i]);
+            System.out.print(' ');
+            if ((i + 1) % n == 0) {
+                System.out.println();
+            }
+        }
+    }
+
+    /**
      * 判断arr数组是否有序
      *
      * @param arr
