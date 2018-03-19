@@ -38,7 +38,7 @@ public class MergeSortBU {
         }
 
         //每循环一次，变换size：1-1、2-2、3-3.。。。。。。。。。
-        for (int size = 1; size < n; size += size) {
+        for (int size = 16; size < n; size += size) {
             /**
              *每循环一次，对相邻的size大小的的两个数组归并一次
              * 其中i < n - size保证第二部分数组的存在

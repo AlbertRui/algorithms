@@ -9,7 +9,7 @@ import me.util.SortTestHelper;
 public class Main {
     public static void main(String[] args) {
         // 测试排序算法辅助函数
-        int N = 20000;
+        int N = 10;
         Integer[] arr = SortTestHelper.generateRandomArray(N, 0, 100000);
 //        Integer[] arr = SortTestHelper.generateNearlyOrderedArray(10000, 10);
 //        SelectionSort.sort(arr);
