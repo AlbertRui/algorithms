@@ -122,4 +122,32 @@ public class SortTestHelper {
 
         return arr;
     }
+
+    /**
+     * 生成一个完全有序的数组
+     *
+     * @param n
+     * @return
+     */
+    public static Integer[] generateOrderedArray(int n) {
+
+        return generateNearlyOrderedArray(n, 0);
+    }
+
+    /**
+     * 生成一个完全逆序的数组
+     *
+     * @param n
+     * @return
+     */
+    public static Integer[] generateInversedArray(int n) {
+
+        Integer[] arr = generateOrderedArray(n);
+        for (int i = n / 2 - 1; i >= 0; i--) {
+            Integer t = arr[i];
+            arr[i] = arr[n - i - 1];
+            arr[n - i - 1] = t;
+        }
+        return arr;
+    }
 }
