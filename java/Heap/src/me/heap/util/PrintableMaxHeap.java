@@ -1,4 +1,6 @@
-package me.heap.swim;
+package me.heap.util;
+
+import me.heap.swim.MaxHeap;
 
 /**
  * 我们的PrintableMaxHeap只能处理整数信息，所以继承的是MaxHeap<Comparable<Integer>>
@@ -7,7 +9,7 @@ package me.heap.swim;
  * @date 2018-03-21 17:28
  */
 // 我们的PrintableMaxHeap只能处理整数信息，所以继承的是MaxHeap<Comparable<Integer>>
-public class PrintableMaxHeap extends MaxHeap<Comparable<Integer>>{
+public class PrintableMaxHeap extends MaxHeap<Comparable<Integer>> {
 
     public PrintableMaxHeap(int capacity){
         super(capacity);

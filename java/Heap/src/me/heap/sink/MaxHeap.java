@@ -1,32 +1,24 @@
-package me.heap.swim;
+package me.heap.sink;
+
+import java.util.Date;
 
 /**
- * 在堆底部添加元素，由下至上的堆有序化
- *
  * @author AlbertRui
- * @date 2018-03-21 16:31
+ * @date 2018-03-21 19:33
  */
-@SuppressWarnings("ALL")
-public class MaxHeap<Item extends Comparable> {
-    //堆中存储的元素
+public class MaxHeap<Item extends Comparable<Item>> {
     protected Item[] data;
-    //元素个数
     protected int count;
     protected int capacity;
 
-    /**
-     * 构造一个空堆
-     *
-     * @param capacity
-     */
     public MaxHeap(int capacity) {
-        this.data = (Item[]) new Comparable[capacity + 1];
+        data = (Item[]) new Comparable[capacity + 1];
         this.count = 0;
         this.capacity = capacity;
     }
 
     /**
-     * 返回堆中元素的个数
+     * 得到堆中元素的个数
      *
      * @return
      */
@@ -49,10 +41,22 @@ public class MaxHeap<Item extends Comparable> {
      * @param item
      */
     public void insert(Item item) {
-        //防止越界问题的发生
-        assert (count < capacity);
+        assert count < capacity;
         data[++count] = item;
         swim(count);
+    }
+
+    /**
+     * 取出最大元素
+     *
+     * @return
+     */
+    public Item extractMax() {
+        assert count > 0;
+        Item ret = data[1];
+        swap(1, count--);
+        sink(1);
+        return ret;
     }
 
     /**
@@ -68,19 +72,26 @@ public class MaxHeap<Item extends Comparable> {
     }
 
     /**
-     * 交换两个元素的值
+     * 下沉操作
      *
-     * @param i
-     * @param j
+     * @param k
      */
-    private void swap(int i, int j) {
-        Item temp = data[i];
-        data[i] = data[j];
-        data[j] = temp;
+    private void sink(int k) {
+        while (2 * k <= count) {
+            int j = 2 * k;
+            if (j < count && less(j, j + 1)) {
+                j++;
+            }
+            if (!less(k, j)) {
+                break;
+            }
+            swap(j, k);
+            k = j;
+        }
     }
 
     /**
-     * 比较两个元素大小
+     * 比较两个元素的大小
      *
      * @param i
      * @param j
@@ -91,14 +102,15 @@ public class MaxHeap<Item extends Comparable> {
     }
 
     /**
-     * 比较两个元素的大小，含等于
+     * 交换下标所对应的元素
      *
      * @param i
      * @param j
-     * @return
      */
-    private boolean lessIgnore(int i, int j) {
-        return data[i].compareTo(data[j]) > 0 ? false : true;
+    private void swap(int i, int j) {
+        Item temp = data[i];
+        data[i] = data[j];
+        data[j] = temp;
     }
 
     public static void main(String[] args) {
@@ -108,5 +120,14 @@ public class MaxHeap<Item extends Comparable> {
         for (int i = 0; i < maxHeap.capacity; i++) {
             maxHeap.insert((int) (Math.random() * 100));
         }
+        System.out.println(maxHeap.size());
+        for (int i = 0; i < maxHeap.capacity; i++) {
+            System.out.print(maxHeap.extractMax() + " ");
+            if ((i + 1)%10 == 0) {
+                System.out.println();
+            }
+        }
+        System.out.println();
+        System.out.println(maxHeap.size());
     }
 }
