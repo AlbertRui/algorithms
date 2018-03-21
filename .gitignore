@@ -1,5 +1,4 @@
 .idea
-java/Sorting-Basic/Sorting-Basic.iml
+*.iml
 production/
 cpp/
-java/Heap/
