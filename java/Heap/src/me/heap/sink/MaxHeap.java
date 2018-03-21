@@ -1,20 +1,41 @@
 package me.heap.sink;
 
-import java.util.Date;
-
 /**
  * @author AlbertRui
  * @date 2018-03-21 19:33
  */
 public class MaxHeap<Item extends Comparable<Item>> {
-    protected Item[] data;
-    protected int count;
-    protected int capacity;
+    private Item[] data;
+    private int count;
+    private int capacity;
 
+    /**
+     * 根据堆的容量建堆
+     *
+     * @param capacity
+     */
     public MaxHeap(int capacity) {
         data = (Item[]) new Comparable[capacity + 1];
         this.count = 0;
         this.capacity = capacity;
+    }
+
+    /**
+     * 根据数组建堆
+     *
+     * @param arr
+     */
+    public MaxHeap(Item[] arr) {
+        int len = arr.length;
+        data = (Item[]) new Comparable[len + 1];
+        capacity = len;
+        for (int i = 0; i < arr.length; i++) {
+            data[i + 1] = arr[i];
+        }
+        count = len;
+        for (int i = count/2;  i > 0; i--) {
+            swim(i);
+        }
     }
 
     /**
@@ -123,7 +144,7 @@ public class MaxHeap<Item extends Comparable<Item>> {
         System.out.println(maxHeap.size());
         for (int i = 0; i < maxHeap.capacity; i++) {
             System.out.print(maxHeap.extractMax() + " ");
-            if ((i + 1)%10 == 0) {
+            if ((i + 1) % 10 == 0) {
                 System.out.println();
             }
         }
