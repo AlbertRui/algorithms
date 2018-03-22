@@ -1,4 +1,4 @@
-package search.binary.tree.basic;
+package search.binary.tree.insert;
 
 /**
  * 二叉查找树
@@ -8,7 +8,6 @@ package search.binary.tree.basic;
  */
 @SuppressWarnings({"javadoc", "unused"})
 public class BinarySearchTree<Key extends Comparable<Key>, Value> {
-
     /**
      * 定义内部私有类作为节点
      */
@@ -61,4 +60,38 @@ public class BinarySearchTree<Key extends Comparable<Key>, Value> {
         return root.count == 0;
     }
 
+    /**
+     * 向二叉查找树中插入节点
+     *
+     * @param key
+     * @param value
+     */
+    public void insert(Key key, Value value) {
+        root = insert(root, key, value);
+    }
+
+    /**
+     * 向以node为根节点的二叉树中插入新的节点
+     * 返回插入节点后的二叉搜索树的根
+     *
+     * @param node
+     * @param key
+     * @param value
+     */
+    private Node insert(Node node, Key key, Value value) {
+        if (node == null) {
+            return new Node(key, value, 1);
+        }
+        int cmp = key.compareTo(node.key);
+        if (cmp < 0) {
+            node.left = insert(node.left, key, value);
+        } else if (cmp > 0) {
+            node.right = insert(node.right, key, value);
+        } else {
+            node.value = value;
+        }
+        node.count = size(node.left) + size(node.right) + 1;
+        return node;
+    }
 }
+
