@@ -1,17 +1,24 @@
 package me.indexheap.advance;
 
 /**
- * 索引堆
+ * 索引堆,添加reverse数组优化
+ * 用户索引从零开始
  *
  * @author AlbertRui
  * @date 2018-03-22 15:58
  */
 @SuppressWarnings("ALL")
 public class IndexMaxHeap<Item extends Comparable<Item>> {
+    //堆中的元素
     private Item[] data;
+    //在堆中i位置元素的索引indexes[i]
     private int[] indexes;
+    //堆中元素的个数
     private int count;
+    //堆的容量
     private int capacity;
+    //索引i在堆中的位置reverse[i]
+    private int[] reverse;
 
     /**
      * 根据堆的容量建堆
@@ -19,8 +26,13 @@ public class IndexMaxHeap<Item extends Comparable<Item>> {
      * @param capacity
      */
     public IndexMaxHeap(int capacity) {
-        data = (Item[]) new Comparable[capacity + 1];
-        indexes = new int[capacity + 1];
+        this.data = (Item[]) new Comparable[capacity + 1];
+        this.indexes = new int[capacity + 1];
+        this.reverse = new int[capacity + 1];
+        //对reverse显示的进行初始化{实际上不必，java默认初始化int型数组元素为零}
+        for (int i = 0; i <= capacity; i++) {
+            reverse[i] = 0;
+        }
         this.count = 0;
         this.capacity = capacity;
     }
@@ -72,6 +84,7 @@ public class IndexMaxHeap<Item extends Comparable<Item>> {
         assert i >= 0 && i < capacity;
         data[++i] = item;
         indexes[++count] = i;
+        reverse[i] = count;
         swim(count);
     }
 
@@ -108,25 +121,24 @@ public class IndexMaxHeap<Item extends Comparable<Item>> {
      * @return
      */
     public Item getItem(int index) {
+        assert (contain(index));
         return data[index + 1];
     }
 
     /**
      * 将索引为index的元素的值改变为item
+     * index这个索引由用户调用，面向用户从零开始
      *
      * @param index
      * @param item
      */
     public void changeItemByIndex(int index, Item item) {
+        assert (contain(index));
         data[++index] = item;
         //i代表元素data[index]在堆中的位置
-        for (int i = 1; i <= count; i++) {
-            if (indexes[i] == index) {
-                swim(i);
-                sink(i);
-                return;
-            }
-        }
+        int i = reverse[index];
+        swim(i);
+        sink(i);
     }
 
     /**
@@ -174,6 +186,7 @@ public class IndexMaxHeap<Item extends Comparable<Item>> {
 
     /**
      * 交换下标所对应的索引
+     * 同时维护reverse数组
      *
      * @param i
      * @param j
@@ -182,6 +195,20 @@ public class IndexMaxHeap<Item extends Comparable<Item>> {
         int temp = indexes[i];
         indexes[i] = indexes[j];
         indexes[j] = temp;
+        reverse[indexes[i]] = i;
+        reverse[indexes[j]] = j;
+    }
+
+    /**
+     * 判断索引值所对饮的元素是否在堆中
+     * 注意：用户索引从零开始
+     *
+     * @param index
+     * @return
+     */
+    private boolean contain(int index) {
+        assert (index >= 0 && index < capacity);
+        return reverse[index + 1] != 0;
     }
 
 }

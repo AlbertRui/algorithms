@@ -1,7 +1,7 @@
 package me.indexheap;
 
 /**
- * 索引堆
+ * 普通索引堆
  *
  * @author AlbertRui
  * @date 2018-03-22 15:58
