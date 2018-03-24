@@ -1,7 +1,11 @@
 package search.binary.tree.traverse.breadth;
 
+import java.util.LinkedList;
+import java.util.Queue;
+
 /**
- * 二叉查找树的遍历(深度优先遍历)
+ * 二叉查找树的遍历
+ * 广度优先遍历（层序遍历）
  *
  * @author AlbertRui
  * @date 2018-03-22 20:41
@@ -110,6 +114,25 @@ public class BinarySearchTree<Key extends Comparable<Key>, Value> {
      */
     public void postOrder() {
         postOrder(root);
+    }
+
+    /**
+     * 层序遍历（广度优先遍历）
+     */
+    public void levelOrder() {
+        //使用Queue的实现类LinkedList来实现队列
+        Queue<Node> queue = new LinkedList<>();
+        queue.add(root);
+        while (!queue.isEmpty()) {
+            Node node = queue.remove();//队首元素出队
+            System.out.println(node.key);
+            if (node.left != null) {
+                queue.add(node.left);
+            }
+            if (node.right != null) {
+                queue.add(node.right);
+            }
+        }
     }
 
     /*===========================================private method=======================================*/
