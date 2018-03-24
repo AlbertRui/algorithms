@@ -4,8 +4,7 @@ import java.util.LinkedList;
 import java.util.Queue;
 
 /**
- * 二叉查找树的遍历
- * 广度优先遍历（层序遍历）
+ * 查找最小值和最大值对应的key
  *
  * @author AlbertRui
  * @date 2018-03-22 20:41
@@ -135,7 +134,55 @@ public class BinarySearchTree<Key extends Comparable<Key>, Value> {
         }
     }
 
+    /**
+     * 寻找最小键值
+     *
+     * @return
+     */
+    public Key minimum() {
+        assert size() != 0;
+        Node minNode = minimum(root);
+        return minNode.key;
+    }
+
+    /**
+     * 寻找最大键值
+     *
+     * @return
+     */
+    public Key maximum() {
+        assert size() != 0;
+        Node maxNode = maximum(root);
+        return maxNode.key;
+    }
+
     /*===========================================private method=======================================*/
+
+    /**
+     * 在以node为根节点的二叉搜索树中寻找最大键值
+     *
+     * @param node
+     * @return
+     */
+    private Node maximum(Node node) {
+        if (node.right == null) {
+            return node;
+        }
+        return maximum(node.right);
+    }
+
+    /**
+     * 在以node为根的二叉搜索树中，返回最小键值所对应的节点
+     *
+     * @param node
+     * @return
+     */
+    private Node minimum(Node node) {
+        if (node.left == null) {
+            return node;
+        }
+        return minimum(node.left);
+    }
 
     /**
      * 对以node为节点的数进行后序遍历
