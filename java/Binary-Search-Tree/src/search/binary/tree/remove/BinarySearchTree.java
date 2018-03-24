@@ -1,4 +1,4 @@
-package search.binary.tree.remove.minandmax;
+package search.binary.tree.remove;
 
 import java.util.LinkedList;
 import java.util.Queue;
@@ -156,7 +156,100 @@ public class BinarySearchTree<Key extends Comparable<Key>, Value> {
         return maxNode.key;
     }
 
+    /**
+     * 删除二分搜索树中最小值所对应的节点
+     */
+    public void removeMin() {
+        if (root != null) {
+            root = removeMin(root);
+        }
+    }
+
+    /**
+     * 删除二分搜索树中最大值所对应的节点
+     */
+    public void removeMax() {
+        if (root != null) {
+            root = removeMax(root);
+        }
+    }
+
+    /**
+     * 删除键值为key的节点
+     * hibbard deletion
+     *
+     * @param key
+     */
+    public void remove(Key key) {
+        root = remove(root, key);
+    }
+
     /*===========================================private method=======================================*/
+
+    /**
+     * 删除以node为根的二分搜索树中键值为key的节点
+     * 返回删除节点后的新的二分搜索树的根
+     *
+     * @param node
+     * @param key
+     * @return
+     */
+    private Node remove(Node node, Key key) {
+        if (node == null) {
+            return null;
+        }
+        int cmp = key.compareTo(node.key);
+        if (cmp < 0) {
+            node.left = remove(node.left, key);
+        } else if (cmp > 0) {
+            node.right = remove(node.right, key);
+        } else {
+            if (node.right == null) {
+                return node.left;
+            }
+            if (node.left == null) {
+                return node.right;
+            }
+            Node temp = node;
+            node = minimum(temp.right);
+            node.right = removeMin(temp.right);
+            node.left = temp.left;
+        }
+        node.count = size(node.left) + size(node.right) + 1;
+        return node;
+    }
+
+    /**
+     * 删除以node为根节点的二分搜索树中的最大键值的节点
+     * 返回删除后的二分搜索树的根节点
+     *
+     * @param node
+     * @return
+     */
+    private Node removeMax(Node node) {
+        if (node.right == null) {
+            return node.left;
+        }
+        node.right = removeMax(node.right);
+        node.count = size(node.left) + size(node.right) + 1;
+        return node;
+    }
+
+    /**
+     * 删除以node为根的二分搜索树的最小键值的节点
+     * 返回删除后的二分搜索树的根
+     *
+     * @param node
+     * @return
+     */
+    private Node removeMin(Node node) {
+        if (node.left == null) {
+            return node.right;
+        }
+        node.left = removeMin(node.left);
+        node.count = size(node.left) + size(node.right) + 1;
+        return node;
+    }
 
     /**
      * 在以node为根节点的二叉搜索树中寻找最大键值
@@ -274,7 +367,6 @@ public class BinarySearchTree<Key extends Comparable<Key>, Value> {
      * @param key
      * @param value
      */
-    @SuppressWarnings("ALL")
     private Node insert(Node node, Key key, Value value) {
         //递归到底的情况处理
         if (node == null) {
