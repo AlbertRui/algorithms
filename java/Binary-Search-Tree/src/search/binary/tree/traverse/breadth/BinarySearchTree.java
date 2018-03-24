@@ -1,12 +1,12 @@
-package search.binary.tree.traverse;
+package search.binary.tree.traverse.breadth;
 
 /**
- * 二叉查找树
+ * 二叉查找树的遍历(深度优先遍历)
  *
  * @author AlbertRui
  * @date 2018-03-22 20:41
  */
-@SuppressWarnings({"javadoc", "unused"})
+@SuppressWarnings("ALL")
 public class BinarySearchTree<Key extends Comparable<Key>, Value> {
     /**
      * 定义内部私有类作为节点
@@ -91,7 +91,67 @@ public class BinarySearchTree<Key extends Comparable<Key>, Value> {
         return search(root, key);
     }
 
+    /**
+     * 前序遍历
+     */
+    public void preOrder() {
+        preOrder(root);
+    }
+
+    /**
+     * 中序遍历
+     */
+    public void inOrder() {
+        inOrder(root);
+    }
+
+    /**
+     * 后序遍历
+     */
+    public void postOrder() {
+        postOrder(root);
+    }
+
     /*===========================================private method=======================================*/
+
+    /**
+     * 对以node为节点的数进行后序遍历
+     *
+     * @param node
+     */
+    private void postOrder(Node node) {
+        if (node != null) {
+            postOrder(node.left);
+            postOrder(node.right);
+            System.out.println(node.key);
+        }
+    }
+
+    /**
+     * 对以node为根的二叉搜索树进行中序遍历
+     *
+     * @param node
+     */
+    private void inOrder(Node node) {
+        if (node != null) {
+            inOrder(node.left);
+            System.out.println(node.key);
+            inOrder(node.right);
+        }
+    }
+
+    /**
+     * 对以node为根的二叉搜索树进行前序遍历
+     *
+     * @param node
+     */
+    private void preOrder(Node node) {
+        if (node != null) {
+            System.out.println(node.key);
+            preOrder(node.left);
+            preOrder(node.right);
+        }
+    }
 
     /**
      * 在以node为根节点的树中查找并返回key所对应的值
