@@ -197,10 +197,115 @@ public class BinarySearchTree<Key extends Comparable<Key>, Value> {
         return node.key;
     }
 
+    public Key ceiling(Key key) {
+        Node node = ceiling(root, key);
+        if (node == null) {
+            return null;
+        }
+        return node.key;
+    }
+
+    /**
+     * 返回给定键值的排名
+     *
+     * @param key
+     * @return
+     */
+    public int rank(Key key) {
+        return rank(root, key);
+    }
+
+    /**
+     * 返回给定排名的键值
+     *
+     * @param k
+     * @return
+     */
+    public Key select(int k) {
+        Node node = select(root, k);
+        if (node != null) {
+            return node.key;
+        }
+        return null;
+    }
+
     /*===========================================private method=======================================*/
 
     /**
-     * 返回取整后的键值所对应的节点
+     * 在以root为根的二分搜索树中
+     * 返回给定排名k对应的键值的节点
+     *
+     * @param node
+     * @param k
+     * @return
+     */
+    private Node select(Node node, int k) {
+        if (node == null) {
+            return null;
+        }
+        int temp = size(node.left) + 1;//排名从1开始
+        if (temp > k) {
+            return select(node.left, k);
+        } else if (temp < k) {
+            return select(node.right, k - temp - 1);
+        } else {
+            return node;
+        }
+    }
+
+    /**
+     * 在以node为根节点的二分搜索树中，返回给定键值的排名（名次从1开始）
+     *
+     * @param node
+     * @param key
+     * @return
+     */
+    private int rank(Node node, Key key) {
+        if (node == null) {
+            return 0;
+        }
+        int cmp = key.compareTo(node.key);
+        if (cmp < 0) {
+            return rank(node.left, key);
+        } else if (cmp > 0) {
+            return 1 + size(node.left) + rank(node.right, key);
+        } else {
+            return 1 + size(node.left);
+            /**
+             * 返回以node为根节点的树中小于node.key的键的数量
+             * return size(node.left);
+             */
+        }
+    }
+
+    /**
+     * 在一node为根的二分搜索树中，返回键值key向上取整后的节点
+     *
+     * @param node
+     * @param key
+     * @return
+     */
+    private Node ceiling(Node node, Key key) {
+        if (node == null) {
+            return null;
+        }
+        int cmp = key.compareTo(node.key);
+        if (cmp == 0) {
+            return node;
+        }
+        if (cmp > 0) {
+            return ceiling(node.right, key);
+        }
+        Node temp = ceiling(node.left, key);
+        if (temp != null) {
+            return temp;
+        } else {
+            return node;
+        }
+    }
+
+    /**
+     * 在以node为根的二分搜索树中，返回键值key向下取整后的键值所对应的节点
      *
      * @param node
      * @param key
@@ -215,7 +320,13 @@ public class BinarySearchTree<Key extends Comparable<Key>, Value> {
             return node;
         }
         if (cmp < 0) {
-
+            return floor(node.left, key);
+        }
+        Node temp = floor(node.right, key);
+        if (temp != null) {
+            return temp;
+        } else {
+            return node;
         }
     }
 
