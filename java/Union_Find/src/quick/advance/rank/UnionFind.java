@@ -34,6 +34,15 @@ public class UnionFind {
 
     /**
      * 并查元素的查找
+     * 此处不需要维护rank的原因：
+     * 事实上，这正是我们将这个变量叫做rank而不是叫诸如depth或者height的原因。
+     * 因为这个rank只是我们做的一个标志当前节点排名的一个数字，
+     * 当我们引入了路径压缩以后，维护这个深度的真实值相对困难一些，
+     * 而且实践告诉我们，我们其实不需要真正维持这个值是真实的深度值，
+     * 我们依然可以以这个rank值作为后续union过程的参考。
+     * 因为根据我们的路径压缩的过程，rank高的节点虽然被抬了上来，
+     * 但是整体上，我们的并查集从任意一个叶子节点出发向根节点前进，依然是一个rank逐渐增高的过程。
+     * 也就是说，这个rank值在经过路径压缩以后，虽然不是真正的深度值，但仍然可以胜任，作为union时的参考。
      *
      * @param p
      * @return
@@ -42,6 +51,8 @@ public class UnionFind {
     public int find(int p) {
         assert (p >= 0 && p < count);
         while (p != parent[p]) {
+            //此处代码不可以合并，如果合并后，parent[p]是不会被赋值的
+            parent[p] = parent[parent[p]];
             p = parent[p];
         }
         return p;
