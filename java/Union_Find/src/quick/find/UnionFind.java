@@ -29,6 +29,7 @@ public class UnionFind {
      * @param p
      * @return
      */
+    @SuppressWarnings("ALL")
     public int find(int p) {
         assert (p >= 0 && p < count);
         return id[p];
