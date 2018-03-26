@@ -8,6 +8,7 @@ import java.util.ArrayList;
  * @author AlbertRui
  * @date 2018-03-25 23:01
  */
+@SuppressWarnings({"javadoc", "unused"})
 public class SparseGraph {
 
     private int vertexNum;
@@ -15,6 +16,7 @@ public class SparseGraph {
     private boolean directed;
     private ArrayList<Integer>[] graph;
 
+    @SuppressWarnings(value = "unchecked")
     public SparseGraph(int vertexNum, boolean directed) {
         this.vertexNum = vertexNum;
         this.edgeNum = 0;
@@ -71,6 +73,16 @@ public class SparseGraph {
         assert (v >= 0 && v < vertexNum);
         assert (w >= 0 && w < vertexNum);
         return graph[v].contains(w);
+    }
+
+    /**
+     * 返回一个图中所有顶点的邻边
+     *
+     * @param vertexNum
+     * @return
+     */
+    public Iterable<Integer> adj(int vertexNum) {
+        return graph[vertexNum];
     }
 
 }
