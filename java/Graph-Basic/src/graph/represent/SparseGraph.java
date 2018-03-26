@@ -13,7 +13,7 @@ public class SparseGraph {
     private int vertexNum;
     private int edgeNum;
     private boolean directed;
-    private ArrayList[] graph;
+    private ArrayList<Integer>[] graph;
 
     public SparseGraph(int vertexNum, boolean directed) {
         this.vertexNum = vertexNum;
@@ -22,7 +22,7 @@ public class SparseGraph {
         this.graph = new ArrayList[vertexNum];
         // g初始化为n个空的vector, 表示每一个g[i]都为空, 即没有任和边
         for (int i = 0; i < vertexNum; i++) {
-            graph[i] = new ArrayList<Integer>();
+            graph[i] = new ArrayList<>();
         }
     }
 
@@ -43,4 +43,34 @@ public class SparseGraph {
     public int getVertexNum() {
         return vertexNum;
     }
+
+    /**
+     * 添加一条边
+     *
+     * @param v
+     * @param w
+     */
+    public void addEdge(int v, int w) {
+        assert (v >= 0 && v < vertexNum);
+        assert (w >= 0 && w < vertexNum);
+        graph[v].add(w);
+        if (v != w && !directed) {
+            graph[w].add(v);
+        }
+        edgeNum++;
+    }
+
+    /**
+     * 判断v和w之间是否存在一条边
+     *
+     * @param v
+     * @param w
+     * @return
+     */
+    public boolean hasEdge(int v, int w) {
+        assert (v >= 0 && v < vertexNum);
+        assert (w >= 0 && w < vertexNum);
+        return graph[v].contains(w);
+    }
+
 }
