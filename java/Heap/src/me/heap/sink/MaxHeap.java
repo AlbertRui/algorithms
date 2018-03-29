@@ -1,4 +1,4 @@
-package me.heap.sink;
+﻿package me.heap.sink;
 
 /**
  * @author AlbertRui
@@ -34,7 +34,7 @@ public class MaxHeap<Item extends Comparable<Item>> {
         }
         count = len;
         for (int i = count/2;  i > 0; i--) {
-            swim(i);
+            sink(i);
         }
     }
 

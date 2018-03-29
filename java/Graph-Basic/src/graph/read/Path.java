@@ -4,6 +4,8 @@ import java.util.Stack;
 import java.util.Vector;
 
 /**
+ * 广度优先遍历
+ *
  * @author AlbertRui
  * @date 2018-03-26 20:48
  */
@@ -95,4 +97,5 @@ public class Path {
                 System.out.print(" -> ");
         }
     }
+
 }

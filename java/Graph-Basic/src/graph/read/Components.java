@@ -1,6 +1,7 @@
 package graph.read;
 
 /**
+ * 深度优先遍历
  * 求无权图的联通分量
  *
  * @author AlbertRui
